@@ -2,77 +2,125 @@
 
 import Card from "../../../components/Card";
 import Button from "../../../components/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { fetchProduce } from "@/lib/api/produce";
 
 type Listing = {
-  id: number;
-  type: string;
-  quantity: string;
-  price: number; // stored as number for bargaining
-  deliveryStatus: string;
-  offer?: number; // buyer offer
+    id: string;
+    name: string;
+    quantityAvailable: number;
+    unit: string;
+    price: number;
+    offer?: number;
 };
 
 export default function ConsumerDashboard() {
-  const [listings, setListings] = useState<Listing[]>([
-    { id: 1, type: "Tomatoes", quantity: "50kg", price: 2, deliveryStatus: "Pending" },
-    { id: 2, type: "Eggs", quantity: "200pcs", price: 0.2, deliveryStatus: "Delivered" },
-  ]);
+    const [listings, setListings] = useState<Listing[]>([]);
+    const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
+    const [offerInput, setOfferInput] = useState("");
 
-  const [activeOfferId, setActiveOfferId] = useState<number | null>(null);
-  const [offerInput, setOfferInput] = useState("");
+    // 🔹 Load real produce from DB
+    useEffect(() => {
+        fetchProduce().then((produce) => {
+            const mapped = produce.map((p: any) => ({
+                id: p._id,
+                name: p.name,
+                quantityAvailable: p.quantityAvailable,
+                unit: p.unit,
+                price: p.pricePerUnit,
+            }));
+            setListings(mapped);
+        });
+    }, []);
 
-  const makeOffer = (id: number) => {
-    setActiveOfferId(id);
-  };
+    const makeOffer = (id: string) => {
+        setActiveOfferId(id);
+    };
 
-  const submitOffer = (id: number) => {
-    const offer = parseFloat(offerInput);
-    if (!isNaN(offer) && offer > 0) {
-      setListings(prev =>
-        prev.map(l => (l.id === id ? { ...l, offer } : l))
-      );
-      alert(`Offer of $${offer} submitted for ${listings.find(l => l.id === id)?.type}!`);
-      setOfferInput("");
-      setActiveOfferId(null);
-    } else {
-      alert("Enter a valid number for your offer.");
-    }
-  };
+    const submitOffer = (id: string) => {
+        const offer = parseFloat(offerInput);
+        if (!isNaN(offer) && offer > 0) {
+            setListings((prev) =>
+                prev.map((l) => (l.id === id ? { ...l, offer } : l))
+            );
 
-  return (
-    <div style={{ padding: "40px 20px", maxWidth: "1000px", margin: "0 auto" }}>
-      <h1 style={{ fontSize: "40px", marginBottom: "16px" }}>Buyer / Business Dashboard</h1>
-      <p style={{ fontSize: "18px", marginBottom: "32px" }}>
-        Browse surplus items, make offers, and track delivery status.
-      </p>
+            alert(
+                `Offer of $${offer.toFixed(2)} submitted for ${
+                    listings.find((l) => l.id === id)?.name
+                }`
+            );
 
-      {listings.map(listing => (
-        <Card key={listing.id}>
-          <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-              <div>
-                {listing.type} — {listing.quantity} — ${listing.price.toFixed(2)}/unit — Delivery: {listing.deliveryStatus}
-                {listing.offer && <span> — Your Offer: ${listing.offer.toFixed(2)}</span>}
-              </div>
-              <Button text="Make Offer" primary onClick={() => makeOffer(listing.id)} />
-            </div>
+            setOfferInput("");
+            setActiveOfferId(null);
+        } else {
+            alert("Enter a valid number for your offer.");
+        }
+    };
 
-            {activeOfferId === listing.id && (
-              <div style={{ display: "flex", gap: "8px", marginTop: "8px" }}>
-                <input
-                  type="number"
-                  placeholder="Enter your offer"
-                  value={offerInput}
-                  onChange={e => setOfferInput(e.target.value)}
-                  style={{ padding: "6px 12px", borderRadius: "6px", border: "1px solid #9bae8c", flex: 1 }}
-                />
-                <Button text="Submit" primary onClick={() => submitOffer(listing.id)} />
-              </div>
-            )}
-          </div>
-        </Card>
-      ))}
-    </div>
-  );
+    return (
+        <div style={{ padding: "40px 20px", maxWidth: "1000px", margin: "0 auto" }}>
+            <h1 style={{ fontSize: "40px", marginBottom: "16px" }}>
+                Buyer / Business Dashboard
+            </h1>
+            <p style={{ fontSize: "18px", marginBottom: "32px" }}>
+                Browse surplus items, make offers, and track delivery status.
+            </p>
+
+            {listings.length === 0 && <p>No produce available right now.</p>}
+
+            {listings.map((listing) => (
+                <Card key={listing.id}>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                        <div
+                            style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                alignItems: "center",
+                            }}
+                        >
+                            <div>
+                                <strong>{listing.name}</strong> —{" "}
+                                {listing.quantityAvailable}
+                                {listing.unit} — $
+                                {listing.price.toFixed(2)}/{listing.unit}
+                                {listing.offer && (
+                                    <span>
+                    {" "}
+                                        — Your Offer: ${listing.offer.toFixed(2)}
+                  </span>
+                                )}
+                            </div>
+                            <Button
+                                text="Make Offer"
+                                primary
+                                onClick={() => makeOffer(listing.id)}
+                            />
+                        </div>
+
+                        {activeOfferId === listing.id && (
+                            <div style={{ display: "flex", gap: "8px", marginTop: "8px" }}>
+                                <input
+                                    type="number"
+                                    placeholder="Enter your offer"
+                                    value={offerInput}
+                                    onChange={(e) => setOfferInput(e.target.value)}
+                                    style={{
+                                        padding: "6px 12px",
+                                        borderRadius: "6px",
+                                        border: "1px solid #9bae8c",
+                                        flex: 1,
+                                    }}
+                                />
+                                <Button
+                                    text="Submit"
+                                    primary
+                                    onClick={() => submitOffer(listing.id)}
+                                />
+                            </div>
+                        )}
+                    </div>
+                </Card>
+            ))}
+        </div>
+    );
 }

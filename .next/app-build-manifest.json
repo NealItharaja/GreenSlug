@@ -16,20 +16,15 @@
       "static/chunks/main-app.js",
       "static/chunks/app/login/page.js"
     ],
-    "/signup/page": [
+    "/dashboard/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/signup/page.js"
+      "static/chunks/app/dashboard/page.js"
     ],
-    "/signup/customer/page": [
+    "/farmer/dashboard/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/signup/customer/page.js"
-    ],
-    "/consumer/dashboard/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/consumer/dashboard/page.js"
+      "static/chunks/app/farmer/dashboard/page.js"
     ]
   }
 }
