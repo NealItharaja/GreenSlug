@@ -21,15 +21,15 @@
       "static/chunks/main-app.js",
       "static/chunks/app/signup/page.js"
     ],
-    "/signup/customer/page": [
+    "/signup/farmer/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/signup/customer/page.js"
+      "static/chunks/app/signup/farmer/page.js"
     ],
-    "/consumer/dashboard/page": [
+    "/farmer/dashboard/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/consumer/dashboard/page.js"
+      "static/chunks/app/farmer/dashboard/page.js"
     ],
     "/not-found": [
       "static/chunks/webpack.js",
