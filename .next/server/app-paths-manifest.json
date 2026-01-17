@@ -1,5 +1,8 @@
 {
   "/page": "app/page.js",
+  "/farmer/dashboard/page": "app/farmer/dashboard/page.js",
   "/login/page": "app/login/page.js",
-  "/farmer/dashboard/page": "app/farmer/dashboard/page.js"
+  "/dashboard/page": "app/dashboard/page.js",
+  "/consumer/dashboard/page": "app/consumer/dashboard/page.js",
+  "/api/produce/route": "app/api/produce/route.js"
 }
