@@ -1,35 +1,39 @@
-"use client";
+import { auth0 } from "@/lib/auth0";
+import LoginButton from "@/components/LoginButton";
+import LogoutButton from "@/components/LogoutButton";
+import Profile from "@/components/Profile";
 
-import Button from "../components/Button";
+export default async function Home() {
+    const session = await auth0.getSession();
+    const user = session?.user;
 
-export default function Home() {
-  return (
-    <div
-      style={{
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        gap: "32px",
-        backgroundColor: "#7ebeab",
-        padding: "40px 20px",
-        textAlign: "center",
-      }}
-    >
-      <h1 style={{ fontSize: "56px", fontWeight: 800, color: "#134a33" }}>GreenSlug</h1>
-      <p style={{ fontSize: "22px", color: "#134a33", maxWidth: "700px" }}>
-        Connect farms with restaurants and nonprofits. Reduce waste. Feed communities.
-      </p>
+    return (
+        <div className="app-container">
+            <div className="main-card-wrapper">
+                <img
+                    src="https://cdn.auth0.com/quantum-assets/dist/latest/logos/auth0/auth0-lockup-en-ondark.png"
+                    alt="Auth0 Logo"
+                    className="auth0-logo"
+                />
+                <h1 className="main-title">Next.js + Auth0</h1>
 
-      <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "20px" }}>
-        <Button text="I'm a Farmer" primary href="/farmer/dashboard" />
-        <Button text="I'm a Buyer / Business" href="/consumer/dashboard" />
-        <Button text="I'm an NPO / Food Bank" href="/npo/dashboard" />
-        <Button text="Admin Dashboard" href="/admin/dashboard" />
-      </div>
-    </div>
-  );
+                <div className="action-card">
+                    {user ? (
+                        <div className="logged-in-section">
+                            <p className="logged-in-message">✅ Successfully logged in!</p>
+                            <Profile />
+                            <LogoutButton />
+                        </div>
+                    ) : (
+                        <>
+                            <p className="action-text">
+                                Welcome! Please log in to access your protected content.
+                            </p>
+                            <LoginButton />
+                        </>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
 }
-
-
