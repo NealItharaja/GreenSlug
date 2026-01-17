@@ -1,19 +1,44 @@
-import Input from "../../components/Input";
-import Button from "../../components/Button";
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Input from "@/components/Input";
+import Button from "@/components/Button";
 
 export default function Login() {
-  return (
-    <div style={{ padding: "80px 20px", textAlign: "center" }}>
-      <h1 style={{ marginBottom: "24px" }}>Login / Sign Up</h1>
-      <div style={{ display: "flex", flexDirection: "column", maxWidth: "400px", margin: "0 auto", gap: "16px" }}>
-        <Input placeholder="Email" type="email" />
-        <select style={{ padding: "12px", borderRadius: "8px", border: "1px solid var(--green-soft)", fontSize: "16px" }}>
-          <option>Farmer</option>
-          <option>Restaurant / Buyer</option>
-          <option>Food Bank / NPO</option>
-        </select>
-        <Button text="Send Magic Link" primary />
-      </div>
-    </div>
-  );
+    const [email, setEmail] = useState("");
+    const router = useRouter();
+
+    async function handleLogin() {
+        const res = await fetch("/api/auth/check", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email }),
+        });
+
+        const data = await res.json();
+
+        if (data.role === "farmer") {
+            router.push(`/farmer/dashboard?id=${data.id}`);
+        } else if (data.role === "customer") {
+            router.push(`/consumer/dashboard?id=${data.id}`);
+        } else {
+            router.push(`/signup?email=${email}`);
+        }
+    }
+
+    return (
+        <div style={{ padding: "80px 20px", textAlign: "center" }}>
+            <h1>Login / Sign Up</h1>
+            <div style={{ maxWidth: 400, margin: "0 auto" }}>
+                <Input
+                    placeholder="Email"
+                    type="email"
+                    value={email}
+                    onChange={(e:any) => setEmail(e.target.value)}
+                />
+                <Button text="Continue" primary onClick={handleLogin} />
+            </div>
+        </div>
+    );
 }

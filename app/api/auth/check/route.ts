@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { getFarmers } from "@/lib/db/farmer";
-import { getCustomers } from "@/lib/db/customer";
+import { getFarmers } from "@/lib/db/farmers";
+import { getCustomers } from "@/lib/db/customers";
 
 export async function POST(req: Request) {
     const { email } = await req.json();
