@@ -1,0 +1,62 @@
+/* ===== TEST COLOR (RED) ===== */
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background-color: red; /* YOU SHOULD SEE RED */
+  color: white;
+}
+
+/* ===== PALETTE VARIABLES ===== */
+:root {
+  --green-main: #349265;
+  --green-light: #7ebeab;
+  --green-dark: #136942;
+  --green-muted: #9bae8c;
+  --green-deep: #134a33;
+}
+
+/* ===== HOMEPAGE STYLES ===== */
+.hero {
+  min-height: 100vh;
+  background: linear-gradient(
+    135deg,
+    var(--green-main),
+    var(--green-deep)
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card {
+  background: var(--green-light);
+  padding: 3rem;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  max-width: 500px;
+  text-align: center;
+}
+
+.card h1 {
+  margin-bottom: 1rem;
+  color: var(--green-deep);
+}
+
+.card p {
+  color: #083322;
+}
+
+.button {
+  margin-top: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--green-dark);
+  border: none;
+  border-radius: 999px;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.button:hover {
+  background: var(--green-deep);
+}
