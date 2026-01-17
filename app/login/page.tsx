@@ -1,43 +1,30 @@
 "use client";
+import { auth0 } from "@/lib/auth0";
+import LoginButton from "@/components/LoginButton";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import Input from "@/components/Input";
-import Button from "@/components/Button";
+export default async function Login() {
+    const session = await auth0.getSession();
+    const user = session?.user;
 
-export default function Login() {
-    const [email, setEmail] = useState("");
-    const router = useRouter();
-
-    async function handleLogin() {
-        const res = await fetch("/api/auth/check", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email }),
-        });
-
-        const data = await res.json();
-
-        if (data.role === "farmer") {
-            router.push(`/farmer/dashboard?id=${data.id}`);
-        } else if (data.role === "customer") {
-            router.push(`/consumer/dashboard?id=${data.id}`);
-        } else {
-            router.push(`/signup?email=${email}`);
-        }
-    }
-
+    // @ts-ignore
+    // @ts-ignore
     return (
-        <div style={{ padding: "80px 20px", textAlign: "center" }}>
-            <h1>Login / Sign Up</h1>
-            <div style={{ maxWidth: 400, margin: "0 auto" }}>
-                <Input
-                    placeholder="Email"
-                    type="email"
-                    value={email}
-                    onChange={(e:any) => setEmail(e.target.value)}
-                />
-                <Button text="Continue" primary onClick={handleLogin} />
+        <div className="app-container">
+            <div className="main-card-wrapper">
+                <div className="action-card">
+                    {user ? (
+                        <div className="logged-in-section">
+                            <p className="logged-in-message">✅ Successfully logged in!</p>
+                        </div>
+                    ) : (
+                        <>
+                            <p className="action-text">
+                                Welcome! Please log in to access your protected content.
+                            </p>
+                            <LoginButton />
+                        </>
+                    )}
+                </div>
             </div>
         </div>
     );
