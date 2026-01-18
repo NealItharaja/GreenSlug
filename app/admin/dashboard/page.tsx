@@ -1,7 +1,7 @@
 "use client";
 
-import Card from "../../../../../Downloads/BaseVersion-main/BaseVersion-main/components/Card";
-import Button from "../../../../../Downloads/BaseVersion-main/BaseVersion-main/components/Button";
+import Card from "components/Card";
+import Button from "components/Button";
 import { useState } from "react";
 
 type User = { id: number; name: string; role: string; verified: boolean };
