@@ -7,8 +7,7 @@ export default function Login() {
     const router = useRouter();
 
     function handleLogin() {
-        // Redirect to Auth0 login page
-        window.location.href = "/api/auth/login";
+        window.location.href = "/auth/login";
     }
 
     return (
@@ -56,7 +55,11 @@ export default function Login() {
                     connecting with local food partners.
                 </p>
 
-                <Button text="Continue" primary onClick={handleLogin} />
+                <Button
+                    text="Continue"
+                    primary
+                    onClick={handleLogin}
+                />
 
                 <p
                     style={{
