@@ -67,27 +67,58 @@ export default function FarmerDashboard() {
                     }}
                 >
                     {/* HEADER */}
-                    <header style={{ marginBottom: "36px" }}>
-                        <h1
-                            style={{
-                                fontSize: "38px",
-                                fontWeight: 900,
-                                color: "#0f3d2a",
-                                marginBottom: "8px",
-                            }}
-                        >
-                            🌾 Farmer Dashboard
-                        </h1>
+                    <header
+                        style={{
+                            marginBottom: "36px",
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            gap: "20px",
+                            flexWrap: "wrap",
+                        }}
+                    >
+                        <div>
+                            <h1
+                                style={{
+                                    fontSize: "38px",
+                                    fontWeight: 900,
+                                    color: "#0f3d2a",
+                                    marginBottom: "8px",
+                                }}
+                            >
+                                🌾 Farmer Dashboard
+                            </h1>
 
-                        <p
+                            <p
+                                style={{
+                                    fontSize: "18px",
+                                    color: "#4a6b5d",
+                                    lineHeight: 1.6,
+                                }}
+                            >
+                                List your surplus produce and connect directly with local buyers and nonprofits.
+                            </p>
+                        </div>
+
+                        {/* DASHBOARD SWITCH */}
+                        <button
+                            onClick={() =>
+                                window.location.href = `/farmer/listings?id=${farmerId}`
+                            }
                             style={{
-                                fontSize: "18px",
-                                color: "#4a6b5d",
-                                lineHeight: 1.6,
+                                padding: "12px 18px",
+                                borderRadius: "14px",
+                                border: "1px solid #cfe5da",
+                                background: "#f3faf6",
+                                color: "#136942",
+                                fontSize: "15px",
+                                fontWeight: 800,
+                                cursor: "pointer",
+                                whiteSpace: "nowrap",
                             }}
                         >
-                            List your surplus produce and connect directly with local buyers and nonprofits.
-                        </p>
+                            📦 My Live Listings
+                        </button>
                     </header>
                     {/* FORM */}
                     <section style={{ display: "grid", gap: "22px" }}>
@@ -109,7 +140,13 @@ export default function FarmerDashboard() {
                                 <option>Other</option>
                             </select>
                         </Field>
-                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "18px" }}>
+                        <div
+                            style={{
+                                display: "grid",
+                                gridTemplateColumns: "2fr 1fr",
+                                gap: "18px",
+                            }}
+                        >
                             <Field label="Quantity Available *">
                                 <input
                                     type="number"
