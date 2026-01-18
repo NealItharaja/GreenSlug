@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { createProduceClient } from "@/lib/api/produce";
-import Navbar from "@/components/NavBar"; // ✅ ADD THIS
+import Navbar from "@/components/NavBar";
 
 export default function FarmerDashboard() {
     const searchParams = useSearchParams();
@@ -182,8 +182,6 @@ export default function FarmerDashboard() {
         </>
     );
 }
-
-/* ---------- FIELD COMPONENT ---------- */
 
 function Field({
                    label,
